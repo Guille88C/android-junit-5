@@ -151,10 +151,4 @@ internal class ExampleUnitTest {
             )
         )
     }
-
-    data class MyArgument(
-        val first: Int,
-        val second: Int,
-        val res: Int
-    )
 }
