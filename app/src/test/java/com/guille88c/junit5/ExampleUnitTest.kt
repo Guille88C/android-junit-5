@@ -15,11 +15,6 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 internal class ExampleUnitTest {
 
     @Tag("disable_test")
@@ -82,17 +77,27 @@ internal class ExampleUnitTest {
     }
 
     @Tag("enable_test")
-    @MethodSource("arguments")
+    @DisplayName("Given numbers by argument, when times is applied, then result is expected")
+    @MethodSource("argument")
     @ParameterizedTest
-    fun testTimesWithArguments(first: Int, second: Int, res: Int) {
+    fun testTimesWithArgument(first: Int, second: Int, res: Int) {
         assertEquals(res, first.times(second))
     }
 
     @Tag("enable_test")
-    @MethodSource("myArguments")
+    @DisplayName("Given numbers by MyArgument with stream, when times is applied, then result is expected")
+    @MethodSource("myArgumentWithStream")
     @ParameterizedTest
-    fun testTimesWithMyArguments(myArguments: MyArguments) {
-        assertEquals(myArguments.res, myArguments.first.times(myArguments.second))
+    fun testTimesWithMyArgumentWithStream(myArgument: MyArgument) {
+        assertEquals(myArgument.res, myArgument.first.times(myArgument.second))
+    }
+
+    @Tag("enable_test")
+    @DisplayName("Given numbers by MyArgument with array, when times is applied, then result is expected")
+    @MethodSource("myArgumentWithArray")
+    @ParameterizedTest
+    fun testTimesWithMyArgumentWithArray(myArgument: MyArgument) {
+        assertEquals(myArgument.res, myArgument.first.times(myArgument.second))
     }
 
     @Tag("enable_test")
@@ -121,7 +126,7 @@ internal class ExampleUnitTest {
     companion object {
 
         @JvmStatic
-        fun arguments(): Stream<Arguments> = Stream.of(
+        fun argument(): Stream<Arguments> = Stream.of(
             Arguments.of(1, 1, 1),
             Arguments.of(1, 2, 2),
             Arguments.of(2, 2, 4),
@@ -129,17 +134,25 @@ internal class ExampleUnitTest {
         )
 
         @JvmStatic
-        fun myArguments(): Stream<MyArguments> = Arrays.stream(
+        fun myArgumentWithStream(): Stream<Arguments> = Stream.of(
+            Arguments.of(MyArgument(1, 1, 1)),
+            Arguments.of(MyArgument(1, 2, 2)),
+            Arguments.of(MyArgument(2, 2, 4)),
+            Arguments.of(MyArgument(2, 3, 6))
+        )
+
+        @JvmStatic
+        fun myArgumentWithArray(): Stream<MyArgument> = Arrays.stream(
             arrayOf(
-                MyArguments(1, 1, 1),
-                MyArguments(1, 2, 2),
-                MyArguments(2, 2, 4),
-                MyArguments(2, 3, 6)
+                MyArgument(1, 1, 1),
+                MyArgument(1, 2, 2),
+                MyArgument(2, 2, 4),
+                MyArgument(2, 3, 6)
             )
         )
     }
 
-    data class MyArguments(
+    data class MyArgument(
         val first: Int,
         val second: Int,
         val res: Int
